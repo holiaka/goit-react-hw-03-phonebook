@@ -4,17 +4,31 @@ import { ContactForm } from "./ContactForm/ContactForm";
 import { Filter } from './Filter/Filter.jsx';
 import { ContactList } from './ContactList/ContactList.jsx';
 
-
-
 export class App extends Component {
   state = {
     contacts: [],
     filter: '',
   };
 
+  componentDidMount() {
+    const pastContacts = JSON.parse(localStorage.getItem("contacts"));
+    console.log(pastContacts);
+    if (pastContacts===null) {
+      return;
+    }
+    this.setState({contacts: pastContacts});
+  }
+  
+  componentDidUpdate(_, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem("contacts", JSON.stringify(contacts))
+    }
+  }
+
   visibleContacts = () => {
     return this.state.contacts.filter(contact => contact.name.toLowerCase().includes(this.state.filter.toLowerCase()));
-    };  
+  };  
 
   handleSubmit = (evt) => {    
     const {contacts} = this.state;
