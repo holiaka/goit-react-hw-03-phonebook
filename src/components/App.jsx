@@ -12,7 +12,6 @@ export class App extends Component {
 
   componentDidMount() {
     const pastContacts = JSON.parse(localStorage.getItem("contacts"));
-    console.log(pastContacts);
     if (pastContacts===null) {
       return;
     }
